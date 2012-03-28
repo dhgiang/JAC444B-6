@@ -196,7 +196,7 @@ public static class MarkerUtils {
 public static void main(String[] args) {
 
   // make sure to set a valid license key
-  setLicenseKey("");
+  setLicenseKey("AIzaSyBGFBFwiI25og60Qc6ezdqfNcZFULzYW3o");
 
   double lat = 38.931099;
   double lon = -77.3489;

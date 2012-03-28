@@ -202,7 +202,7 @@ private SwingUIHookAdapter _initHook(SwingUIHookAdapter hook) {
 
 private void _displayImgInFrame() {
 
-  final JFrame frame = new JFrame("Google Static Map");
+  final JFrame frame = new JFrame("Google Static Map -- TEST 123");
   GUIUtils.setAppIcon(frame, "71.png");
   frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -211,7 +211,7 @@ private void _displayImgInFrame() {
                                              _img.getWidth(), _img.getHeight()));
   imgLbl.addMouseListener(new MouseListener() {
     public void mouseClicked(MouseEvent e) {}
-    public void mousePressed(MouseEvent e) { frame.dispose();}
+    public void mousePressed(MouseEvent e) { }//frame.dispose();}
     public void mouseReleased(MouseEvent e) { }
     public void mouseEntered(MouseEvent e) { }
     public void mouseExited(MouseEvent e) { }
@@ -303,6 +303,13 @@ private void initComponents() {
   label5 = new JLabel();
   ttfLon = new JTextField();
   btnQuit = new JButton();
+  
+  //--- my buttons
+  btnZoomIn = new JButton();
+  btnZoomOut = new JButton();
+  slider = new JSlider();
+  
+  
   label1 = new JLabel();
   ttfLicense = new JTextField();
   label6 = new JLabel();
@@ -311,6 +318,7 @@ private void initComponents() {
   ttaStatus = new JTextArea();
   panel2 = new JPanel();
   panel3 = new JPanel();
+  btnPanel = new JPanel();
   checkboxRecvStatus = new JCheckBox();
   checkboxSendStatus = new JCheckBox();
   ttfProgressMsg = new JTextField();
@@ -319,7 +327,7 @@ private void initComponents() {
 
   //======== this ========
   setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-  setTitle("Google Static Maps");
+  setTitle("Google Static Maps -- DUC");
   setIconImage(null);
   Container contentPane = getContentPane();
   contentPane.setLayout(new BorderLayout());
@@ -379,7 +387,7 @@ private void initComponents() {
   				}
   			});
   			panel1.add(btnGetMap, new TableLayoutConstraints(5, 0, 5, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
-
+  			
   			//---- label3 ----
   			label3.setText("Size Height");
   			label3.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -397,7 +405,10 @@ private void initComponents() {
   			//---- ttfLon ----
   			ttfLon.setText("-77.3489");
   			panel1.add(ttfLon, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			
 
+  			
+  			
   			//---- btnQuit ----
   			btnQuit.setText("Quit");
   			btnQuit.setMnemonic('Q');
@@ -410,6 +421,7 @@ private void initComponents() {
   			});
   			panel1.add(btnQuit, new TableLayoutConstraints(5, 1, 5, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
+  			
   			//---- label1 ----
   			label1.setText("License Key");
   			label1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -427,6 +439,64 @@ private void initComponents() {
   			//---- ttfZoom ----
   			ttfZoom.setText("14");
   			panel1.add(ttfZoom, new TableLayoutConstraints(3, 2, 3, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			
+  			//---- zoomLessBtn
+  			
+  			//---- zoomPlusBtn
+  			//---- btnPanel ----//
+  			{
+  				btnPanel.setOpaque(false);
+  				btnPanel.setLayout(new GridLayout(0,5));
+  	  			
+  	  			//---- btnZoomIn ----
+  	  			btnZoomIn.setText("-");
+  	  			btnZoomIn.setMnemonic('-');
+  	  			btnZoomIn.setHorizontalAlignment(SwingConstants.LEFT);
+  	  			btnZoomIn.setHorizontalTextPosition(SwingConstants.RIGHT);
+  	  			btnZoomIn.addActionListener(new ActionListener() { 
+  	  				public void actionPerformed(ActionEvent e) { 
+ 	  					Integer b =  Integer.parseInt(ttfZoom.getText());
+  	  					b = b - 1;  	  			
+  	  					if(b>=0)
+  	  					ttfZoom.setText(b.toString());
+  	  					else {}
+  	  				}
+  	  			});
+  	  			btnPanel.add(btnZoomIn, new TableLayoutConstraints(5,2,5,2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  	  			
+  	  			//---- btnZoomOut ----
+  	  			btnZoomOut.setText("+");
+  	  			btnZoomOut.setMnemonic('+');
+  	  			btnZoomOut.setHorizontalAlignment(SwingConstants.RIGHT);
+  	  			btnZoomOut.setHorizontalTextPosition(SwingConstants.RIGHT);
+  	  			btnZoomOut.addActionListener(new ActionListener() { 
+  	  				public void actionPerformed(ActionEvent e) {
+  	  					Integer a =  Integer.parseInt(ttfZoom.getText());
+  	  					a = a + 1;
+  	  					if(a<=19)
+  	  						ttfZoom.setText(a.toString());
+  	  					else {}
+  	  				}
+  	  			});
+  	  			btnPanel.add(btnZoomOut, new TableLayoutConstraints(5,2,5,2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));  	
+  	  			
+  	  			//---- slider ----//
+  	  			slider.addActionLister(new ActionLister() {
+  	  				public void actionPerformed(ActionEvent e ) {
+  	  					Integer a =  Integer.parseInt(ttfZoom.getText());
+  	  					a = a + 1;
+  	  					if(a<=19)
+  	  						ttfZoom.setText(a.toString());
+  	  					else {}
+  	  					
+  	  				}
+  	  			});
+  	  			slider.setBorder(null);
+  	  			btnPanel.add(slider, new TableLayoutConstraints(5,2,5,2 TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			}
+  			panel1.add(btnPanel, new TableLayoutConstraints(5,2,5,2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			
+  			
   		}
   		contentPanel.add(panel1, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
@@ -474,6 +544,8 @@ private void initComponents() {
   			}
   			panel2.add(panel3, new TableLayoutConstraints(0, 0, 0, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
+  			
+  			
   			//---- ttfProgressMsg ----
   			ttfProgressMsg.setText("Loading map from Google Static Maps");
   			ttfProgressMsg.setToolTipText("Set the task progress message here");
@@ -504,6 +576,7 @@ private void initComponents() {
 
 // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 // Generated using JFormDesigner non-commercial license
+
 private JPanel dialogPane;
 private JPanel contentPanel;
 private JPanel panel1;
@@ -517,6 +590,13 @@ private JTextField ttfSizeH;
 private JLabel label5;
 private JTextField ttfLon;
 private JButton btnQuit;
+
+//---- my buttons
+private JButton btnZoomOut;
+private JButton btnZoomIn;
+
+
+
 private JLabel label1;
 private JTextField ttfLicense;
 private JLabel label6;
@@ -525,6 +605,12 @@ private JScrollPane scrollPane1;
 private JTextArea ttaStatus;
 private JPanel panel2;
 private JPanel panel3;
+
+private JPanel btnPanel;
+
+private JSlider slider;
+
+
 private JCheckBox checkboxRecvStatus;
 private JCheckBox checkboxSendStatus;
 private JTextField ttfProgressMsg;

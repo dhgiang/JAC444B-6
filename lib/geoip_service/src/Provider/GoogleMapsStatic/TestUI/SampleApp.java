@@ -17,13 +17,29 @@ import org.apache.commons.httpclient.methods.*;
 
 import javax.imageio.*;
 import javax.swing.*;
+
+/***
+ * I added the ChangeEvent and ChangeListener
+ * class library to enable event handling for
+ * the Jslider slide bar interface
+ */
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+//import java.lang.Object;
+
+
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
+
 import java.beans.*;
 import java.text.*;
 import java.util.concurrent.*;
+
+
+import java.awt.image.BufferedImage;
+
+
 
 /** @author nazmul idris */
 public class SampleApp extends JFrame {
@@ -84,7 +100,7 @@ private void _setupTask() {
       _initHook(hook);
 
       // set the license key
-      MapLookup.setLicenseKey(ttfLicense.getText());
+      MapLookup.setLicenseKey("");
       // get the uri for the static map
       String uri = MapLookup.getMap(Double.parseDouble(ttfLat.getText()),
                                     Double.parseDouble(ttfLon.getText()),
@@ -287,6 +303,7 @@ private void quitProgram() {
   System.exit(0);
 }
 
+
 private void initComponents() {
   // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
   // Generated using JFormDesigner non-commercial license
@@ -304,21 +321,28 @@ private void initComponents() {
   ttfLon = new JTextField();
   btnQuit = new JButton();
   
-  //--- my buttons
+  
+  
+  //--- my buttons 
   btnZoomIn = new JButton();
   btnZoomOut = new JButton();
-  slider = new JSlider();
+  slider = new JSlider(0, 19, 14);
+  btnPanel = new JPanel();
   
+  //---- My Combo Boxes for different city coordinates ----//
+  
+  cities = new JComboBox<Object>(new Object[] {"Montreal", "Toronto", "Vancouver", "New York City", "Caracas", "Hong Kong"});
+  cities.setSelectedIndex(0);
   
   label1 = new JLabel();
-  ttfLicense = new JTextField();
+  //ttfLicense = new JTextField();
   label6 = new JLabel();
   ttfZoom = new JTextField();
   scrollPane1 = new JScrollPane();
   ttaStatus = new JTextArea();
   panel2 = new JPanel();
   panel3 = new JPanel();
-  btnPanel = new JPanel();
+  
   checkboxRecvStatus = new JCheckBox();
   checkboxSendStatus = new JCheckBox();
   ttfProgressMsg = new JTextField();
@@ -374,7 +398,7 @@ private void initComponents() {
   			panel1.add(label4, new TableLayoutConstraints(2, 0, 2, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfLat ----
-  			ttfLat.setText("38.931099");
+  			ttfLat.setText("45.5");
   			panel1.add(ttfLat, new TableLayoutConstraints(3, 0, 3, 0, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- btnGetMap ----
@@ -403,7 +427,7 @@ private void initComponents() {
   			panel1.add(label5, new TableLayoutConstraints(2, 1, 2, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfLon ----
-  			ttfLon.setText("-77.3489");
+  			ttfLon.setText("-73.55");
   			panel1.add(ttfLon, new TableLayoutConstraints(3, 1, 3, 1, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   			
 
@@ -423,13 +447,47 @@ private void initComponents() {
 
   			
   			//---- label1 ----
-  			label1.setText("License Key");
+  			label1.setText("Select City");
   			label1.setHorizontalAlignment(SwingConstants.RIGHT);
   			panel1.add(label1, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
-  			//---- ttfLicense ----
-  			ttfLicense.setToolTipText("Enter your own URI for a file to download in the background");
-  			panel1.add(ttfLicense, new TableLayoutConstraints(1, 2, 1, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  			//---- cities ----
+  			//---- I removed the license key field and replaced the cell with a select Cities Option Duc Giang ---
+  			cities.addItemListener(new ItemListener(){
+  				public void itemStateChanged(ItemEvent e){
+  					Integer z = cities.getSelectedIndex();
+  					switch(z) {
+  						case 0:
+  							ttfLat.setText("45.5");
+  							ttfLon.setText("-73.55");
+  							break;
+  						case 1:
+  							ttfLat.setText("43.65");
+  							ttfLon.setText("-79.38");
+  							break;
+  						case 2:
+  							ttfLat.setText("49.2505");
+  							ttfLon.setText("-123.1119");
+  							break;  				
+  						case 3:
+  							ttfLat.setText("40.7142");
+  							ttfLon.setText("-74.0064");
+  							break;  				
+  						case 4:
+  							ttfLat.setText("10.4901");
+  							ttfLon.setText("-66.9151");
+  							break;  				
+  						case 5:
+  							ttfLat.setText("22.257");
+  							ttfLon.setText("114.2");
+  							break;
+  						default:
+  							break;
+  					}
+  					
+  				}
+  			});
+  			panel1.add(cities, new TableLayoutConstraints(1, 2, 1, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- label6 ----
   			label6.setText("Zoom");
@@ -437,7 +495,7 @@ private void initComponents() {
   			panel1.add(label6, new TableLayoutConstraints(2, 2, 2, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- ttfZoom ----
-  			ttfZoom.setText("14");
+  			ttfZoom.setText("12");
   			panel1.add(ttfZoom, new TableLayoutConstraints(3, 2, 3, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   			
   			//---- zoomLessBtn
@@ -446,7 +504,7 @@ private void initComponents() {
   			//---- btnPanel ----//
   			{
   				btnPanel.setOpaque(false);
-  				btnPanel.setLayout(new GridLayout(0,5));
+  				btnPanel.setLayout(new GridLayout(0,3));
   	  			
   	  			//---- btnZoomIn ----
   	  			btnZoomIn.setText("-");
@@ -457,8 +515,10 @@ private void initComponents() {
   	  				public void actionPerformed(ActionEvent e) { 
  	  					Integer b =  Integer.parseInt(ttfZoom.getText());
   	  					b = b - 1;  	  			
-  	  					if(b>=0)
-  	  					ttfZoom.setText(b.toString());
+  	  					if(b>=0){
+  	  						ttfZoom.setText(b.toString());
+  	  						slider.setValue(b);
+  	  					}
   	  					else {}
   	  				}
   	  			});
@@ -472,27 +532,40 @@ private void initComponents() {
   	  			btnZoomOut.addActionListener(new ActionListener() { 
   	  				public void actionPerformed(ActionEvent e) {
   	  					Integer a =  Integer.parseInt(ttfZoom.getText());
-  	  					a = a + 1;
-  	  					if(a<=19)
+  	  					a = a + 1 ;
+  	  					if(a<=19) {
   	  						ttfZoom.setText(a.toString());
+  	  						slider.setValue(a);
+  	  					}
   	  					else {}
   	  				}
   	  			});
   	  			btnPanel.add(btnZoomOut, new TableLayoutConstraints(5,2,5,2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));  	
   	  			
   	  			//---- slider ----//
-  	  			slider.addActionLister(new ActionLister() {
-  	  				public void actionPerformed(ActionEvent e ) {
-  	  					Integer a =  Integer.parseInt(ttfZoom.getText());
-  	  					a = a + 1;
-  	  					if(a<=19)
+  	  			add(slider, BorderLayout.EAST);
+  	  			slider.setMaximum(19);
+  	  			slider.setMinimum(0);
+  	  			slider.setPaintTicks(true);
+  	  			slider.setMajorTickSpacing(19);
+  	  			slider.setMinorTickSpacing(1);
+  	  			slider.setPaintTrack(false);
+  	  			slider.createStandardLabels(4, 0);
+
+  	  			
+  	  			slider.addChangeListener(new ChangeListener() {
+  	  				public void stateChanged(ChangeEvent e ) {
+  	  					  	  					 	  					
+  	  					Integer a =  slider.getValue();
+
+  	  					if(a>= 0 && a<=19)
   	  						ttfZoom.setText(a.toString());
   	  					else {}
   	  					
   	  				}
   	  			});
   	  			slider.setBorder(null);
-  	  			btnPanel.add(slider, new TableLayoutConstraints(5,2,5,2 TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
+  	  			btnPanel.add(slider, new TableLayoutConstraints(5,2,5,2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   			}
   			panel1.add(btnPanel, new TableLayoutConstraints(5,2,5,2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
   			
@@ -591,14 +664,17 @@ private JLabel label5;
 private JTextField ttfLon;
 private JButton btnQuit;
 
-//---- my buttons
+
+//---- my buttons, panels, slider, and combo boxes ----//
 private JButton btnZoomOut;
 private JButton btnZoomIn;
-
+private JPanel btnPanel;
+private JSlider slider;
+private JComboBox<Object> cities;
 
 
 private JLabel label1;
-private JTextField ttfLicense;
+//private JTextField ttfLicense;
 private JLabel label6;
 private JTextField ttfZoom;
 private JScrollPane scrollPane1;
@@ -606,9 +682,6 @@ private JTextArea ttaStatus;
 private JPanel panel2;
 private JPanel panel3;
 
-private JPanel btnPanel;
-
-private JSlider slider;
 
 
 private JCheckBox checkboxRecvStatus;

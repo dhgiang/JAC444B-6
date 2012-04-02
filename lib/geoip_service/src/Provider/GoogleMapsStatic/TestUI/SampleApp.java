@@ -321,7 +321,13 @@ private void initComponents() {
   ttfLon = new JTextField();
   btnQuit = new JButton();
   
-  
+/***
+ * Created 5 GUI objects, Zoom In Button,Zoom Out button, Jslider, a combo box for city selection
+ * and a panel to group the zoom buttons along with the slider bar
+ * @author Duc
+ * @return
+ * 
+ */
   
   //--- my buttons 
   btnZoomIn = new JButton();
@@ -330,7 +336,6 @@ private void initComponents() {
   btnPanel = new JPanel();
   
   //---- My Combo Boxes for different city coordinates ----//
-  
   cities = new JComboBox<Object>(new Object[] {"Montreal", "Toronto", "Vancouver", "New York City", "Caracas", "Hong Kong"});
   cities.setSelectedIndex(0);
   
@@ -452,7 +457,11 @@ private void initComponents() {
   			panel1.add(label1, new TableLayoutConstraints(0, 2, 0, 2, TableLayoutConstraints.FULL, TableLayoutConstraints.FULL));
 
   			//---- cities ----
-  			//---- I removed the license key field and replaced the cell with a select Cities Option Duc Giang ---
+  			/***
+  			 * @author Duc
+  			 * I removed the license key field and replaced the cell with a select Cities Option -- Duc Giang 
+  			 * http://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html
+  			 */			 
   			cities.addItemListener(new ItemListener(){
   				public void itemStateChanged(ItemEvent e){
   					Integer z = cities.getSelectedIndex();
